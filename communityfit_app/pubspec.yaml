@@ -1,4 +1,4 @@
-name: communityfit_app
+name: community_fit
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -21,6 +21,13 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  flutter_signin_button: ^1.1.0
+  firebase_storage: ^7.0.0
+  firebase_core: "0.7.0"
+  firebase_auth: "^0.20.0+1"
+  cloud_firestore: ^0.16.0
+  google_sign_in: "^4.5.1"
+  flutter_riverpod: ^0.12.4
   flutter:
     sdk: flutter
 

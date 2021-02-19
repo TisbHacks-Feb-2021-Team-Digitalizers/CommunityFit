@@ -1,4 +1,4 @@
-package com.example.communityfit_app
+package com.example.tisbapp
 
 import io.flutter.embedding.android.FlutterActivity
 

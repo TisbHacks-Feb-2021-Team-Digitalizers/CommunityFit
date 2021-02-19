@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "613201830135",
+    "project_id": "tisbapp-dev",
+    "storage_bucket": "tisbapp-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:613201830135:android:94a345e733d8ef2e71b3f2",
+        "android_client_info": {
+          "package_name": "com.communityfit.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "613201830135-srmrjcjfut1666ej55okubbofprlc2r8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.communityfit.app",
+            "certificate_hash": "0ac01af4abd8f081d62f54d41478665e3b234a61"
+          }
+        },
+        {
+          "client_id": "613201830135-fd8ndh9shsjef7bcfshi0q4psp5lsgan.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzVDRz70MxnB6WVl_b6ca5plh7JW16pH8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "613201830135-fd8ndh9shsjef7bcfshi0q4psp5lsgan.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

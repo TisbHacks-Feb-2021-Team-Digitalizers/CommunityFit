@@ -13,14 +13,14 @@ class UserData {
   final String photoUrl;
   final String email;
   final String displayName;
-  final int score;
+  final double score;
 
   factory UserData.fromMap(Map<String, dynamic> json) => UserData(
         uid: json["uid"],
         photoUrl: json["photoURL"],
         email: json["email"],
         displayName: json["displayName"],
-        score: json["score"],
+        score: json["score"].toDouble(),
       );
 
   Map<String, dynamic> toMap() => {

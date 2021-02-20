@@ -1,3 +1,4 @@
+import 'package:community_fit/router.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:community_fit/wrapper.dart';
@@ -16,6 +17,7 @@ class RootWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      onGenerateRoute: generateRoute,
       home: FutureBuilder(
         future: Firebase.initializeApp(),
         builder: (context, snapshot) {

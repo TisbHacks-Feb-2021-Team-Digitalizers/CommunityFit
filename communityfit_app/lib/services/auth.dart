@@ -2,10 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-final authServiceProvider = Provider<AuthService>((ref) {
-  return AuthService();
-});
-
 class AuthService {
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow

@@ -1,0 +1,1 @@
+const dishUploadPageRoute = '/upload-dish';

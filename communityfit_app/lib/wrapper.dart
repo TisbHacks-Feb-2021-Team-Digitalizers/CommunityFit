@@ -20,6 +20,7 @@ class Wrapper extends ConsumerWidget {
     return watch(_wrapperProvider).when(
       data: (data) {
         User user = data[0];
+        print(user);
         if (user == null) {
           return LoginPage();
         } else {

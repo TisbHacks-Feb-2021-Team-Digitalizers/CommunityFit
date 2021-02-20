@@ -1,8 +1,9 @@
+import 'package:community_fit/shared/databaseService.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
-import 'package:community_fit/services/auth.dart';
+import 'package:community_fit/shared/authService.dart';
 
 class LoginPage extends ConsumerWidget {
   @override
@@ -16,9 +17,12 @@ class LoginPage extends ConsumerWidget {
             children: <Widget>[
               SignInButton(
                 Buttons.Google,
-                onPressed: () {
+                onPressed: () async {
                   final authService = context.read(authServiceProvider);
-                  authService.signInWithGoogle();
+                  await authService.signInWithGoogle();
+                  final databaseService =
+                      await context.read(databaseServiceProvider.future);
+                  await databaseService.addUser();
                 },
               ),
             ],

@@ -6,9 +6,6 @@ final databaseServiceProvider =
     FutureProvider.autoDispose<DatabaseService>((ref) async {
   final user = await ref.watch(userStateStreamProvider.last);
   ref.maintainState = true;
-  if (user == null) {
-    return null;
-  }
   return DatabaseService(
     user: user,
   );

@@ -14,6 +14,10 @@ class DatabaseService {
   Future<void> addUser() async {
     final userData = UserData(
       uid: user.uid,
+      photoUrl: user.photoURL,
+      displayName: user.displayName,
+      email: user.email,
+      score: 0,
     );
 
     final documentSnapshot = await usersRef.doc(user.uid).get();
@@ -22,23 +26,64 @@ class DatabaseService {
     }
   }
 
+  UserData _userDataFromDocumentSnapshot(DocumentSnapshot ds) {
+    return UserData.fromMap(ds.data());
+  }
+
+  Stream<UserData> get userDataStream {
+    return usersRef
+        .doc(user.uid)
+        .snapshots()
+        .map(_userDataFromDocumentSnapshot);
+  }
+
   Future<DocumentReference> addDish(Dish dish) async {
     final dishesRef = FirebaseFirestore.instance
         .collection('users')
         .doc(user.uid)
         .collection('dishes');
 
-    final documentReference = await dishesRef.add(
-      dish.toMap(),
-    );
+    final documentReference = await dishesRef.add({
+      'photoURL': dish.photoUrl,
+      'name': dish.name,
+    });
     return documentReference;
+  }
+
+  Future<List<UserData>> getTopUsers() async {
+    final querySnapshot = await usersRef
+        .orderBy(
+          'score',
+          descending: false,
+        )
+        .limit(30)
+        .get();
+    return _usersFromQuerySnapshot(querySnapshot);
+  }
+
+  Future<List<Dish>> getDishesByUser(String uid) async {
+    final querySnapshot =
+        await usersRef.doc(uid).collection('dishes').limit(20).get();
+    return _dishesFromQuerySnapshot(querySnapshot);
+  }
+
+  List<UserData> _usersFromQuerySnapshot(QuerySnapshot qs) {
+    print(qs.docs);
+    return qs.docs.map((doc) {
+      print(doc.data());
+      return UserData.fromMap(
+        doc.data(),
+      );
+    }).toList();
   }
 
   List<Dish> _dishesFromQuerySnapshot(QuerySnapshot qs) {
     return qs.docs.map((doc) {
-      print(doc.data());
       return Dish.fromMap(
-        doc.data(),
+        {
+          ...doc.data(),
+          'dishId': doc.id,
+        },
       );
     }).toList();
   }

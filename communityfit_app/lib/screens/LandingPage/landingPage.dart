@@ -1,5 +1,6 @@
 import 'package:community_fit/constants/colors.dart';
 import 'package:community_fit/shared/authService.dart';
+import 'package:community_fit/shared/userDataStream.dart';
 import 'package:community_fit/shared/userDishesStream.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,19 +25,8 @@ class LandingPage extends ConsumerWidget {
                   },
                 );
               } else if (index == 1) {
-                return RaisedButton(
-                  child: Text('Add Dish'),
-                  color: appBarColor,
-                  onPressed: () async {
-                    await Navigator.pushNamed(
-                      context,
-                      _routes.dishUploadPageRoute,
-                    );
-                  },
-                );
-              } else if (index == 2) {
                 return Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Text(
                       'Your Food Log',
@@ -45,18 +35,55 @@ class LandingPage extends ConsumerWidget {
                         fontSize: 30.0,
                       ),
                     ),
+                    RaisedButton.icon(
+                      label: Text(
+                        'Add Dish',
+                      ),
+                      icon: Icon(
+                        Icons.add,
+                      ),
+                      color: appBarColor,
+                      onPressed: () async {
+                        await Navigator.pushNamed(
+                          context,
+                          _routes.dishUploadPageRoute,
+                        );
+                      },
+                    ),
                   ],
                 );
+              } else if (index == 2) {
+                return watch(userDataStreamProvider).when<Widget>(
+                  data: (userData) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'Score: ${userData.score}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                  loading: () => LinearProgressIndicator(),
+                  error: (error, stackTrace) => Text(
+                    'Something went wrong in retrieving the score...',
+                  ),
+                );
               }
+              final dish = dishes[index - 3];
               return Card(
                 child: ListTile(
                   leading: CircleAvatar(
                     backgroundImage: NetworkImage(
-                      'https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=700%2C636',
+                      dish.photoUrl,
                     ),
                   ),
                   title: Text(
-                    dishes[index].name,
+                    dish.name,
                   ),
                 ),
               );

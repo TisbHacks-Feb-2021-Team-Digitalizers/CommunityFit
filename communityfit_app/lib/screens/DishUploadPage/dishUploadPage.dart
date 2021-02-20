@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:community_fit/constants/colors.dart';
 import 'package:community_fit/models/dish.dart';
+import 'package:community_fit/shared/apiServiceProvider.dart';
 import 'package:community_fit/shared/databaseService.dart';
 import 'package:community_fit/shared/storageService.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -146,15 +147,21 @@ class Uploader extends ConsumerWidget {
         if (_formKey.currentState.validate()) {
           // incur database service
           final storageService = context.read(storageServiceProvider);
+          final apiService = context.read(apiServiceProvider);
+          final dishName = context.read(_dishNameProvider).state;
+          final edamamApiResponse = await apiService.searchEdamam(dishName);
+          print('the edamam response is');
+          print(edamamApiResponse);
           final databaseService =
               await context.read(databaseServiceProvider.future);
-          final dishName = context.read(_dishNameProvider).state;
+          await databaseService.updateScore(edamamApiResponse);
           await databaseService.addDish(
             Dish(
               photoUrl: await storageService.getPhotoUrlForDish(filePath),
               name: dishName,
             ),
           );
+          Navigator.pop(context);
         }
       },
       child: Container(

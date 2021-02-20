@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:community_fit/models/dish.dart';
+import 'package:community_fit/models/edamamApiResponse.dart';
 import 'package:community_fit/models/userData.dart';
+import 'package:community_fit/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 
@@ -26,11 +28,25 @@ class DatabaseService {
     }
   }
 
+  Future<void> updateScore(EdamamApiResponse edamamApiResponse) async {
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      final freshSnapshot = await transaction.get(usersRef.doc(user.uid));
+      transaction.update(freshSnapshot.reference, {
+        'score': calculateScoreFromEdamamResponse(
+          freshSnapshot['score'],
+          edamamApiResponse,
+        )
+      });
+    });
+  }
+
   UserData _userDataFromDocumentSnapshot(DocumentSnapshot ds) {
     return UserData.fromMap(ds.data());
   }
 
   Stream<UserData> get userDataStream {
+    print('The value of user is');
+    print(user);
     return usersRef
         .doc(user.uid)
         .snapshots()

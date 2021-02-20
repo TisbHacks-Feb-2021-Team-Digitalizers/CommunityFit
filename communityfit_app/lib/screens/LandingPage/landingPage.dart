@@ -69,9 +69,13 @@ class LandingPage extends ConsumerWidget {
                     );
                   },
                   loading: () => LinearProgressIndicator(),
-                  error: (error, stackTrace) => Text(
-                    'Something went wrong in retrieving the score...',
-                  ),
+                  error: (error, stackTrace) {
+                    print(error);
+                    print(stackTrace);
+                    return Text(
+                      'Something went wrong in retrieving the score...',
+                    );
+                  },
                 );
               }
               final dish = dishes[index - 3];
